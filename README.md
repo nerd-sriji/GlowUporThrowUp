@@ -158,10 +158,32 @@ USELESS 2.0/
    - Check internet connection
    - Ensure API key has proper permissions
 
-3. **Upload failures**:
+3. **Rate Limiting (429 Error)**:
+   - **Problem**: "Too Many Requests" error from Gemini API
+   - **Cause**: Exceeded free tier limits (15 requests/minute, 1,500/day)
+   - **Solutions**:
+     - Wait 5-10 seconds between requests
+     - The app automatically retries with exponential backoff
+     - Consider upgrading to paid tier for higher limits
+     - Current implementation uses gemini-1.5-flash for better rate limits
+
+4. **Upload failures**:
    - Check file size (should be < 10MB)
    - Verify image format (JPG, PNG, WebP)
    - Ensure sufficient disk space
+
+### API Rate Limits
+
+**Free Tier Limits**:
+- 15 requests per minute
+- 1,500 requests per day
+- 1 million tokens per minute
+
+**Built-in Solutions**:
+- Automatic retry with exponential backoff
+- Switched to faster gemini-1.5-flash model
+- Optimized token usage
+- Better error messages with retry suggestions
 
 ### Error Messages
 - Check browser console for detailed error logs

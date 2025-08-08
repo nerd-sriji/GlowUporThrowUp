@@ -38,6 +38,23 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Helper function to retry API calls with exponential backoff
+async function retryWithBackoff(fn, maxRetries = 3, baseDelay = 1000) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error.status === 429 && attempt < maxRetries) {
+        const delay = baseDelay * Math.pow(2, attempt - 1);
+        console.log(`Rate limited. Retrying in ${delay}ms... (Attempt ${attempt}/${maxRetries})`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        continue;
+      }
+      throw error;
+    }
+  }
+}
+
 // API endpoint for hairstyle detection
 app.post('/api/detect-hairstyle', upload.single('image'), async (req, res) => {
   try {
@@ -51,8 +68,16 @@ app.post('/api/detect-hairstyle', upload.single('image'), async (req, res) => {
     // Convert image to base64
     const base64Image = imageData.toString('base64');
     
-    // Get the generative model
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+    // Get the generative model with safety settings
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash", // Using flash model for better rate limits
+      generationConfig: {
+        temperature: 0.7,
+        topK: 40,
+        topP: 0.95,
+        maxOutputTokens: 1024,
+      }
+    });
 
     const prompt = `Analyze this image and identify the person's hairstyle. Please provide:
     1. The current hairstyle name
@@ -79,7 +104,11 @@ app.post('/api/detect-hairstyle', upload.single('image'), async (req, res) => {
       }
     };
 
-    const result = await model.generateContent([prompt, imagePart]);
+    // Use retry logic for API call
+    const result = await retryWithBackoff(async () => {
+      return await model.generateContent([prompt, imagePart]);
+    }, 3, 2000);
+    
     const response = await result.response;
     const text = response.text();
     
@@ -127,9 +156,24 @@ app.post('/api/detect-hairstyle', upload.single('image'), async (req, res) => {
       fs.unlinkSync(req.file.path);
     }
     
-    res.status(500).json({ 
-      error: 'Failed to analyze hairstyle',
-      details: error.message 
+    let errorMessage = 'Failed to analyze hairstyle';
+    let statusCode = 500;
+    
+    if (error.status === 429) {
+      errorMessage = 'API rate limit exceeded. Please wait a moment and try again.';
+      statusCode = 429;
+    } else if (error.status === 403) {
+      errorMessage = 'API access denied. Please check your API key.';
+      statusCode = 403;
+    } else if (error.status === 400) {
+      errorMessage = 'Invalid request. Please check your image format.';
+      statusCode = 400;
+    }
+    
+    res.status(statusCode).json({ 
+      error: errorMessage,
+      details: error.message,
+      retryAfter: error.status === 429 ? 5 : null
     });
   }
 });

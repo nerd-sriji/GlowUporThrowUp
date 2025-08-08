@@ -143,11 +143,19 @@ class HairstyleDetector {
             if (data.success) {
                 this.displayResults(data.analysis, data.rawResponse);
             } else {
-                throw new Error(data.error || 'Analysis failed');
+                // Handle different error types
+                if (response.status === 429) {
+                    const retryAfter = data.retryAfter || 5;
+                    this.showError(`Rate limit exceeded. Please wait ${retryAfter} seconds and try again.`);
+                } else if (response.status === 403) {
+                    this.showError('API access denied. Please check your API key configuration.');
+                } else {
+                    throw new Error(data.error || 'Analysis failed');
+                }
             }
         } catch (error) {
             console.error('Error analyzing photo:', error);
-            this.showError('Failed to analyze the hairstyle. Please try again.');
+            this.showError('Failed to analyze the hairstyle. Please try again in a few moments.');
         } finally {
             this.hideLoading();
         }
