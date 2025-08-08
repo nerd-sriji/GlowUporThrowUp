@@ -70,7 +70,6 @@ npm run dev
 
 ### Project Documentation
 For Software:
-[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://github.com/user-attachments/assets/e2ce464c-734e-4051-9519-9432885c6dcd)
 
 
 # Screenshots (Add at least 3)
@@ -81,6 +80,9 @@ For Software:
 *AI analysis results displaying detected hairstyle and suggestions*
 
 <img width="1688" height="927" alt="Image" src="https://github.com/user-attachments/assets/b10783d6-68a7-41d6-9d39-a1a51d7d4b8d" />(screenshot of working page)
+
+# video
+[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://github.com/user-attachments/assets/e2ce464c-734e-4051-9519-9432885c6dcd)
 
 # Diagrams
 <img width="768" height="18" alt="Image" src="https://github.com/user-attachments/assets/28771898-d9ed-464b-ab7c-e9e6eada8f9d" />
