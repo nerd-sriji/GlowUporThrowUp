@@ -70,9 +70,10 @@ npm run dev
 
 ### Project Documentation
 For Software:
+https://github.com/user-attachments/assets/e2ce464c-734e-4051-9519-9432885c6dcd
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
+<img width="793" height="928" alt="Image" src="https://github.com/user-attachments/assets/4c232271-6aca-4cdd-9535-3aa0e45d014b" />(Interface)
 *Main interface showing camera capture and upload options*
 
 ![Screenshot2](Add screenshot 2 here with proper name)
