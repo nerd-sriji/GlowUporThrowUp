@@ -83,7 +83,7 @@ For Software:
 <img width="1688" height="927" alt="Image" src="https://github.com/user-attachments/assets/b10783d6-68a7-41d6-9d39-a1a51d7d4b8d" />(screenshot of working page)
 
 # Diagrams
-![Workflow](photo_gemini_flow.png)
+<img width="768" height="18" alt="Image" src="https://github.com/user-attachments/assets/28771898-d9ed-464b-ab7c-e9e6eada8f9d" />
 *User captures photo → Express server processes → Gemini AI analyzes → Results displayed*
 
 ## Team Contributions
