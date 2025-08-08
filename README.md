@@ -79,7 +79,7 @@ For Software:
 <img width="793" height="928" alt="Image" src="https://github.com/user-attachments/assets/4c232271-6aca-4cdd-9535-3aa0e45d014b" />(home page)
 *AI analysis results displaying detected hairstyle and suggestions*
 
-<img width="1688" height="927" alt="Image" src="https://github.com/user-attachments/assets/b10783d6-68a7-41d6-9d39-a1a51d7d4b8d" />(screenshot of working page)
+ ![Image](https://github.com/user-attachments/assets/36d0f4d0-5d99-4831-a319-9e4a8cc5d49a)(responsive on phone)
 
 # video
 [![Watch the video](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://github.com/user-attachments/assets/e2ce464c-734e-4051-9519-9432885c6dcd)
